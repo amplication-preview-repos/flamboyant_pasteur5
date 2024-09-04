@@ -1,16 +1,13 @@
-import { CommentCreateNestedManyWithoutUsersInput } from "./CommentCreateNestedManyWithoutUsersInput";
-import { LikeCreateNestedManyWithoutUsersInput } from "./LikeCreateNestedManyWithoutUsersInput";
-import { RatingCreateNestedManyWithoutUsersInput } from "./RatingCreateNestedManyWithoutUsersInput";
 import { InputJsonValue } from "../../types";
 
 export type UserCreateInput = {
-  comments?: CommentCreateNestedManyWithoutUsersInput;
+  comments?: InputJsonValue;
   email?: string | null;
   firstName?: string | null;
   lastName?: string | null;
-  likes?: LikeCreateNestedManyWithoutUsersInput;
+  likes?: InputJsonValue;
   password: string;
-  ratings?: RatingCreateNestedManyWithoutUsersInput;
+  ratings?: InputJsonValue;
   roles: InputJsonValue;
   username: string;
 };

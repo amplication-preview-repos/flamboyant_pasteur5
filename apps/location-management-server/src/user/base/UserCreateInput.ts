@@ -11,17 +11,8 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CommentCreateNestedManyWithoutUsersInput } from "./CommentCreateNestedManyWithoutUsersInput";
-import {
-  ValidateNested,
-  IsOptional,
-  IsString,
-  MaxLength,
-} from "class-validator";
-import { Type } from "class-transformer";
-import { LikeCreateNestedManyWithoutUsersInput } from "./LikeCreateNestedManyWithoutUsersInput";
-import { RatingCreateNestedManyWithoutUsersInput } from "./RatingCreateNestedManyWithoutUsersInput";
 import { IsJSONValue } from "../../validators";
+import { IsOptional, IsString, MaxLength } from "class-validator";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
 
@@ -29,15 +20,13 @@ import { InputJsonValue } from "../../types";
 class UserCreateInput {
   @ApiProperty({
     required: false,
-    type: () => CommentCreateNestedManyWithoutUsersInput,
   })
-  @ValidateNested()
-  @Type(() => CommentCreateNestedManyWithoutUsersInput)
+  @IsJSONValue()
   @IsOptional()
-  @Field(() => CommentCreateNestedManyWithoutUsersInput, {
+  @Field(() => GraphQLJSON, {
     nullable: true,
   })
-  comments?: CommentCreateNestedManyWithoutUsersInput;
+  comments?: InputJsonValue;
 
   @ApiProperty({
     required: false,
@@ -76,15 +65,13 @@ class UserCreateInput {
 
   @ApiProperty({
     required: false,
-    type: () => LikeCreateNestedManyWithoutUsersInput,
   })
-  @ValidateNested()
-  @Type(() => LikeCreateNestedManyWithoutUsersInput)
+  @IsJSONValue()
   @IsOptional()
-  @Field(() => LikeCreateNestedManyWithoutUsersInput, {
+  @Field(() => GraphQLJSON, {
     nullable: true,
   })
-  likes?: LikeCreateNestedManyWithoutUsersInput;
+  likes?: InputJsonValue;
 
   @ApiProperty({
     required: true,
@@ -96,15 +83,13 @@ class UserCreateInput {
 
   @ApiProperty({
     required: false,
-    type: () => RatingCreateNestedManyWithoutUsersInput,
   })
-  @ValidateNested()
-  @Type(() => RatingCreateNestedManyWithoutUsersInput)
+  @IsJSONValue()
   @IsOptional()
-  @Field(() => RatingCreateNestedManyWithoutUsersInput, {
+  @Field(() => GraphQLJSON, {
     nullable: true,
   })
-  ratings?: RatingCreateNestedManyWithoutUsersInput;
+  ratings?: InputJsonValue;
 
   @ApiProperty({
     required: true,

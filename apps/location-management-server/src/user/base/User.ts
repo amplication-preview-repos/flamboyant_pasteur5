@@ -11,31 +11,23 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { Comment } from "../../comment/base/Comment";
-import {
-  ValidateNested,
-  IsOptional,
-  IsDate,
-  IsString,
-  MaxLength,
-} from "class-validator";
-import { Type } from "class-transformer";
-import { Like } from "../../like/base/Like";
-import { Rating } from "../../rating/base/Rating";
 import { IsJSONValue } from "../../validators";
+import { IsOptional, IsDate, IsString, MaxLength } from "class-validator";
 import { GraphQLJSON } from "graphql-type-json";
 import { JsonValue } from "type-fest";
+import { Type } from "class-transformer";
 
 @ObjectType()
 class User {
   @ApiProperty({
     required: false,
-    type: () => [Comment],
   })
-  @ValidateNested()
-  @Type(() => Comment)
+  @IsJSONValue()
   @IsOptional()
-  comments?: Array<Comment>;
+  @Field(() => GraphQLJSON, {
+    nullable: true,
+  })
+  comments!: JsonValue;
 
   @ApiProperty({
     required: true,
@@ -90,21 +82,23 @@ class User {
 
   @ApiProperty({
     required: false,
-    type: () => [Like],
   })
-  @ValidateNested()
-  @Type(() => Like)
+  @IsJSONValue()
   @IsOptional()
-  likes?: Array<Like>;
+  @Field(() => GraphQLJSON, {
+    nullable: true,
+  })
+  likes!: JsonValue;
 
   @ApiProperty({
     required: false,
-    type: () => [Rating],
   })
-  @ValidateNested()
-  @Type(() => Rating)
+  @IsJSONValue()
   @IsOptional()
-  ratings?: Array<Rating>;
+  @Field(() => GraphQLJSON, {
+    nullable: true,
+  })
+  ratings!: JsonValue;
 
   @ApiProperty({
     required: true,

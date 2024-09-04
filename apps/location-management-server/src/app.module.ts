@@ -1,10 +1,5 @@
 import { Module } from "@nestjs/common";
-import { LikeModule } from "./like/like.module";
-import { CommentModule } from "./comment/comment.module";
-import { LocationModule } from "./location/location.module";
-import { RatingModule } from "./rating/rating.module";
 import { UserModule } from "./user/user.module";
-import { LocationImageModule } from "./locationImage/locationImage.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -19,12 +14,7 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
   controllers: [],
   imports: [
     StorageModule,
-    LikeModule,
-    CommentModule,
-    LocationModule,
-    RatingModule,
     UserModule,
-    LocationImageModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

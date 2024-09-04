@@ -11,17 +11,8 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CommentUpdateManyWithoutUsersInput } from "./CommentUpdateManyWithoutUsersInput";
-import {
-  ValidateNested,
-  IsOptional,
-  IsString,
-  MaxLength,
-} from "class-validator";
-import { Type } from "class-transformer";
-import { LikeUpdateManyWithoutUsersInput } from "./LikeUpdateManyWithoutUsersInput";
-import { RatingUpdateManyWithoutUsersInput } from "./RatingUpdateManyWithoutUsersInput";
 import { IsJSONValue } from "../../validators";
+import { IsOptional, IsString, MaxLength } from "class-validator";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
 
@@ -29,15 +20,13 @@ import { InputJsonValue } from "../../types";
 class UserUpdateInput {
   @ApiProperty({
     required: false,
-    type: () => CommentUpdateManyWithoutUsersInput,
   })
-  @ValidateNested()
-  @Type(() => CommentUpdateManyWithoutUsersInput)
+  @IsJSONValue()
   @IsOptional()
-  @Field(() => CommentUpdateManyWithoutUsersInput, {
+  @Field(() => GraphQLJSON, {
     nullable: true,
   })
-  comments?: CommentUpdateManyWithoutUsersInput;
+  comments?: InputJsonValue;
 
   @ApiProperty({
     required: false,
@@ -76,15 +65,13 @@ class UserUpdateInput {
 
   @ApiProperty({
     required: false,
-    type: () => LikeUpdateManyWithoutUsersInput,
   })
-  @ValidateNested()
-  @Type(() => LikeUpdateManyWithoutUsersInput)
+  @IsJSONValue()
   @IsOptional()
-  @Field(() => LikeUpdateManyWithoutUsersInput, {
+  @Field(() => GraphQLJSON, {
     nullable: true,
   })
-  likes?: LikeUpdateManyWithoutUsersInput;
+  likes?: InputJsonValue;
 
   @ApiProperty({
     required: false,
@@ -99,15 +86,13 @@ class UserUpdateInput {
 
   @ApiProperty({
     required: false,
-    type: () => RatingUpdateManyWithoutUsersInput,
   })
-  @ValidateNested()
-  @Type(() => RatingUpdateManyWithoutUsersInput)
+  @IsJSONValue()
   @IsOptional()
-  @Field(() => RatingUpdateManyWithoutUsersInput, {
+  @Field(() => GraphQLJSON, {
     nullable: true,
   })
-  ratings?: RatingUpdateManyWithoutUsersInput;
+  ratings?: InputJsonValue;
 
   @ApiProperty({
     required: false,

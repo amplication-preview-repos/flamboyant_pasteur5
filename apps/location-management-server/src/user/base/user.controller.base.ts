@@ -22,15 +22,6 @@ import { User } from "./User";
 import { UserFindManyArgs } from "./UserFindManyArgs";
 import { UserWhereUniqueInput } from "./UserWhereUniqueInput";
 import { UserUpdateInput } from "./UserUpdateInput";
-import { CommentFindManyArgs } from "../../comment/base/CommentFindManyArgs";
-import { Comment } from "../../comment/base/Comment";
-import { CommentWhereUniqueInput } from "../../comment/base/CommentWhereUniqueInput";
-import { LikeFindManyArgs } from "../../like/base/LikeFindManyArgs";
-import { Like } from "../../like/base/Like";
-import { LikeWhereUniqueInput } from "../../like/base/LikeWhereUniqueInput";
-import { RatingFindManyArgs } from "../../rating/base/RatingFindManyArgs";
-import { Rating } from "../../rating/base/Rating";
-import { RatingWhereUniqueInput } from "../../rating/base/RatingWhereUniqueInput";
 
 export class UserControllerBase {
   constructor(protected readonly service: UserService) {}
@@ -40,11 +31,14 @@ export class UserControllerBase {
     return await this.service.createUser({
       data: data,
       select: {
+        comments: true,
         createdAt: true,
         email: true,
         firstName: true,
         id: true,
         lastName: true,
+        likes: true,
+        ratings: true,
         roles: true,
         updatedAt: true,
         username: true,
@@ -60,11 +54,14 @@ export class UserControllerBase {
     return this.service.users({
       ...args,
       select: {
+        comments: true,
         createdAt: true,
         email: true,
         firstName: true,
         id: true,
         lastName: true,
+        likes: true,
+        ratings: true,
         roles: true,
         updatedAt: true,
         username: true,
@@ -81,11 +78,14 @@ export class UserControllerBase {
     const result = await this.service.user({
       where: params,
       select: {
+        comments: true,
         createdAt: true,
         email: true,
         firstName: true,
         id: true,
         lastName: true,
+        likes: true,
+        ratings: true,
         roles: true,
         updatedAt: true,
         username: true,
@@ -111,11 +111,14 @@ export class UserControllerBase {
         where: params,
         data: data,
         select: {
+          comments: true,
           createdAt: true,
           email: true,
           firstName: true,
           id: true,
           lastName: true,
+          likes: true,
+          ratings: true,
           roles: true,
           updatedAt: true,
           username: true,
@@ -141,11 +144,14 @@ export class UserControllerBase {
       return await this.service.deleteUser({
         where: params,
         select: {
+          comments: true,
           createdAt: true,
           email: true,
           firstName: true,
           id: true,
           lastName: true,
+          likes: true,
+          ratings: true,
           roles: true,
           updatedAt: true,
           username: true,
@@ -159,269 +165,5 @@ export class UserControllerBase {
       }
       throw error;
     }
-  }
-
-  @common.Get("/:id/comments")
-  @ApiNestedQuery(CommentFindManyArgs)
-  async findComments(
-    @common.Req() request: Request,
-    @common.Param() params: UserWhereUniqueInput
-  ): Promise<Comment[]> {
-    const query = plainToClass(CommentFindManyArgs, request.query);
-    const results = await this.service.findComments(params.id, {
-      ...query,
-      select: {
-        createdAt: true,
-        id: true,
-
-        location: {
-          select: {
-            id: true,
-          },
-        },
-
-        text: true,
-        updatedAt: true,
-
-        user: {
-          select: {
-            id: true,
-          },
-        },
-      },
-    });
-    if (results === null) {
-      throw new errors.NotFoundException(
-        `No resource was found for ${JSON.stringify(params)}`
-      );
-    }
-    return results;
-  }
-
-  @common.Post("/:id/comments")
-  async connectComments(
-    @common.Param() params: UserWhereUniqueInput,
-    @common.Body() body: CommentWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      comments: {
-        connect: body,
-      },
-    };
-    await this.service.updateUser({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Patch("/:id/comments")
-  async updateComments(
-    @common.Param() params: UserWhereUniqueInput,
-    @common.Body() body: CommentWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      comments: {
-        set: body,
-      },
-    };
-    await this.service.updateUser({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Delete("/:id/comments")
-  async disconnectComments(
-    @common.Param() params: UserWhereUniqueInput,
-    @common.Body() body: CommentWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      comments: {
-        disconnect: body,
-      },
-    };
-    await this.service.updateUser({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Get("/:id/likes")
-  @ApiNestedQuery(LikeFindManyArgs)
-  async findLikes(
-    @common.Req() request: Request,
-    @common.Param() params: UserWhereUniqueInput
-  ): Promise<Like[]> {
-    const query = plainToClass(LikeFindManyArgs, request.query);
-    const results = await this.service.findLikes(params.id, {
-      ...query,
-      select: {
-        createdAt: true,
-        id: true,
-
-        location: {
-          select: {
-            id: true,
-          },
-        },
-
-        updatedAt: true,
-
-        user: {
-          select: {
-            id: true,
-          },
-        },
-      },
-    });
-    if (results === null) {
-      throw new errors.NotFoundException(
-        `No resource was found for ${JSON.stringify(params)}`
-      );
-    }
-    return results;
-  }
-
-  @common.Post("/:id/likes")
-  async connectLikes(
-    @common.Param() params: UserWhereUniqueInput,
-    @common.Body() body: LikeWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      likes: {
-        connect: body,
-      },
-    };
-    await this.service.updateUser({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Patch("/:id/likes")
-  async updateLikes(
-    @common.Param() params: UserWhereUniqueInput,
-    @common.Body() body: LikeWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      likes: {
-        set: body,
-      },
-    };
-    await this.service.updateUser({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Delete("/:id/likes")
-  async disconnectLikes(
-    @common.Param() params: UserWhereUniqueInput,
-    @common.Body() body: LikeWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      likes: {
-        disconnect: body,
-      },
-    };
-    await this.service.updateUser({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Get("/:id/ratings")
-  @ApiNestedQuery(RatingFindManyArgs)
-  async findRatings(
-    @common.Req() request: Request,
-    @common.Param() params: UserWhereUniqueInput
-  ): Promise<Rating[]> {
-    const query = plainToClass(RatingFindManyArgs, request.query);
-    const results = await this.service.findRatings(params.id, {
-      ...query,
-      select: {
-        createdAt: true,
-        id: true,
-
-        location: {
-          select: {
-            id: true,
-          },
-        },
-
-        updatedAt: true,
-
-        user: {
-          select: {
-            id: true,
-          },
-        },
-
-        value: true,
-      },
-    });
-    if (results === null) {
-      throw new errors.NotFoundException(
-        `No resource was found for ${JSON.stringify(params)}`
-      );
-    }
-    return results;
-  }
-
-  @common.Post("/:id/ratings")
-  async connectRatings(
-    @common.Param() params: UserWhereUniqueInput,
-    @common.Body() body: RatingWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      ratings: {
-        connect: body,
-      },
-    };
-    await this.service.updateUser({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Patch("/:id/ratings")
-  async updateRatings(
-    @common.Param() params: UserWhereUniqueInput,
-    @common.Body() body: RatingWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      ratings: {
-        set: body,
-      },
-    };
-    await this.service.updateUser({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Delete("/:id/ratings")
-  async disconnectRatings(
-    @common.Param() params: UserWhereUniqueInput,
-    @common.Body() body: RatingWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      ratings: {
-        disconnect: body,
-      },
-    };
-    await this.service.updateUser({
-      where: params,
-      data,
-      select: { id: true },
-    });
   }
 }

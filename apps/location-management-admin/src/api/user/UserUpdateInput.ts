@@ -1,16 +1,13 @@
-import { CommentUpdateManyWithoutUsersInput } from "./CommentUpdateManyWithoutUsersInput";
-import { LikeUpdateManyWithoutUsersInput } from "./LikeUpdateManyWithoutUsersInput";
-import { RatingUpdateManyWithoutUsersInput } from "./RatingUpdateManyWithoutUsersInput";
 import { InputJsonValue } from "../../types";
 
 export type UserUpdateInput = {
-  comments?: CommentUpdateManyWithoutUsersInput;
+  comments?: InputJsonValue;
   email?: string | null;
   firstName?: string | null;
   lastName?: string | null;
-  likes?: LikeUpdateManyWithoutUsersInput;
+  likes?: InputJsonValue;
   password?: string;
-  ratings?: RatingUpdateManyWithoutUsersInput;
+  ratings?: InputJsonValue;
   roles?: InputJsonValue;
   username?: string;
 };

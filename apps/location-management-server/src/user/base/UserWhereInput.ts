@@ -11,27 +11,24 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CommentListRelationFilter } from "../../comment/base/CommentListRelationFilter";
-import { ValidateNested, IsOptional } from "class-validator";
+import { JsonFilter } from "../../util/JsonFilter";
 import { Type } from "class-transformer";
+import { IsOptional } from "class-validator";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
-import { LikeListRelationFilter } from "../../like/base/LikeListRelationFilter";
-import { RatingListRelationFilter } from "../../rating/base/RatingListRelationFilter";
 
 @InputType()
 class UserWhereInput {
   @ApiProperty({
     required: false,
-    type: () => CommentListRelationFilter,
+    type: JsonFilter,
   })
-  @ValidateNested()
-  @Type(() => CommentListRelationFilter)
+  @Type(() => JsonFilter)
   @IsOptional()
-  @Field(() => CommentListRelationFilter, {
+  @Field(() => JsonFilter, {
     nullable: true,
   })
-  comments?: CommentListRelationFilter;
+  comments?: JsonFilter;
 
   @ApiProperty({
     required: false,
@@ -79,27 +76,25 @@ class UserWhereInput {
 
   @ApiProperty({
     required: false,
-    type: () => LikeListRelationFilter,
+    type: JsonFilter,
   })
-  @ValidateNested()
-  @Type(() => LikeListRelationFilter)
+  @Type(() => JsonFilter)
   @IsOptional()
-  @Field(() => LikeListRelationFilter, {
+  @Field(() => JsonFilter, {
     nullable: true,
   })
-  likes?: LikeListRelationFilter;
+  likes?: JsonFilter;
 
   @ApiProperty({
     required: false,
-    type: () => RatingListRelationFilter,
+    type: JsonFilter,
   })
-  @ValidateNested()
-  @Type(() => RatingListRelationFilter)
+  @Type(() => JsonFilter)
   @IsOptional()
-  @Field(() => RatingListRelationFilter, {
+  @Field(() => JsonFilter, {
     nullable: true,
   })
-  ratings?: RatingListRelationFilter;
+  ratings?: JsonFilter;
 
   @ApiProperty({
     required: false,
